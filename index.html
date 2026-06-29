@@ -1,1 +1,391 @@
-<!-- BOSS AD PLACEHOLDER -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOSS AI — Autonomous Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: white;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .stage {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scene {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      padding: clamp(20px, 5vw, 60px);
+    }
+
+    .scene.active {
+      opacity: 1;
+    }
+
+    /* Scene 1: BOSS Logo */
+    .logo-text {
+      font-size: clamp(60px, 18vw, 160px);
+      font-weight: 900;
+      color: #0ea5e9;
+      text-shadow: 
+        0 0 clamp(20px, 3vw, 40px) #0ea5e9,
+        0 0 clamp(40px, 6vw, 80px) rgba(14, 165, 233, 0.5);
+      animation: slamIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes slamIn {
+      0% {
+        transform: scale(0) rotate(-15deg);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* Scene 2: Feature Cards */
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 3vh, 32px);
+      width: 100%;
+      max-width: clamp(300px, 80vw, 600px);
+    }
+
+    .card {
+      background: rgba(14, 165, 233, 0.1);
+      border: 2px solid #0ea5e9;
+      border-radius: clamp(12px, 2vw, 20px);
+      padding: clamp(16px, 3vw, 32px);
+      transform: translateX(-100vw);
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .card.slide-in {
+      transform: translateX(0);
+    }
+
+    .card-emoji {
+      font-size: clamp(28px, 6vw, 48px);
+      margin-bottom: clamp(8px, 1.5vh, 16px);
+    }
+
+    .card-text {
+      font-size: clamp(18px, 4vw, 32px);
+      font-weight: 700;
+    }
+
+    /* Scene 3: Counter */
+    .counter-container {
+      text-align: center;
+    }
+
+    .counter-number {
+      font-size: clamp(80px, 22vw, 200px);
+      font-weight: 900;
+      color: #0ea5e9;
+      line-height: 1;
+      margin-bottom: clamp(16px, 3vh, 32px);
+    }
+
+    .counter-label {
+      font-size: clamp(20px, 4.5vw, 40px);
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* Scene 4: Quote */
+    .quote-container {
+      max-width: clamp(280px, 85vw, 700px);
+      text-align: center;
+    }
+
+    .quote-text {
+      font-size: clamp(20px, 4.5vw, 42px);
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: clamp(16px, 3vh, 32px);
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-size: clamp(16px, 3.5vw, 28px);
+      color: #0ea5e9;
+      font-weight: 700;
+    }
+
+    /* Scene 5: CTA */
+    .cta-container {
+      text-align: center;
+    }
+
+    .cta-logo {
+      font-size: clamp(48px, 14vw, 120px);
+      font-weight: 900;
+      color: #0ea5e9;
+      margin-bottom: clamp(16px, 3vh, 32px);
+    }
+
+    .cta-tagline {
+      font-size: clamp(18px, 4vw, 36px);
+      font-weight: 600;
+      margin-bottom: clamp(24px, 5vh, 48px);
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #0ea5e9;
+      color: #0a0a0a;
+      font-size: clamp(18px, 4vw, 32px);
+      font-weight: 700;
+      padding: clamp(14px, 2.5vw, 24px) clamp(28px, 5vw, 48px);
+      border-radius: clamp(8px, 1.5vw, 16px);
+      text-decoration: none;
+      animation: pulse 2s ease-in-out infinite;
+      transition: transform 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 clamp(10px, 2vw, 20px) rgba(14, 165, 233, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 clamp(20px, 4vw, 40px) rgba(14, 165, 233, 0.8);
+      }
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: #0ea5e9;
+      width: 0%;
+      transition: width 0.1s linear;
+      z-index: 1000;
+    }
+
+    /* ALL-AI MADE Badge */
+    .ai-badge {
+      position: fixed;
+      top: clamp(12px, 2vh, 20px);
+      right: clamp(12px, 2vw, 20px);
+      background: rgba(14, 165, 233, 0.2);
+      border: 2px solid #0ea5e9;
+      border-radius: clamp(6px, 1vw, 10px);
+      padding: clamp(6px, 1.2vw, 12px) clamp(12px, 2vw, 20px);
+      font-size: clamp(10px, 2vw, 14px);
+      font-weight: 700;
+      color: #0ea5e9;
+      animation: badgePulse 3s ease-in-out infinite;
+      z-index: 1000;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(0.95);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <!-- Scene 1: Logo -->
+    <div class="scene scene-1">
+      <div class="logo-text">BOSS</div>
+    </div>
+
+    <!-- Scene 2: Feature Cards -->
+    <div class="scene scene-2">
+      <div class="cards-container">
+        <div class="card card-1">
+          <div class="card-emoji">⚡</div>
+          <div class="card-text">Writes code</div>
+        </div>
+        <div class="card card-2">
+          <div class="card-emoji">🚀</div>
+          <div class="card-text">Deploys live</div>
+        </div>
+        <div class="card card-3">
+          <div class="card-emoji">🧠</div>
+          <div class="card-text">Learns daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Counter -->
+    <div class="scene scene-3">
+      <div class="counter-container">
+        <div class="counter-number" id="counter">0</div>
+        <div class="counter-label">tasks built autonomously</div>
+      </div>
+    </div>
+
+    <!-- Scene 4: Quote -->
+    <div class="scene scene-4">
+      <div class="quote-container">
+        <div class="quote-text">"I just told it what I wanted. It built the whole app."</div>
+        <div class="quote-author">— @galen</div>
+      </div>
+    </div>
+
+    <!-- Scene 5: CTA -->
+    <div class="scene scene-5">
+      <div class="cta-container">
+        <div class="cta-logo">BOSS</div>
+        <div class="cta-tagline">Your AI. Your rules.</div>
+        <a href="https://getbossai.io" class="cta-button">Try BOSS Free →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- AI Badge -->
+  <div class="ai-badge">ALL-AI MADE</div>
+
+  <script>
+    const TOTAL_DURATION = 15000; // 15 seconds
+    const scenes = [
+      { element: document.querySelector('.scene-1'), start: 0, end: 3000 },
+      { element: document.querySelector('.scene-2'), start: 3000, end: 6000 },
+      { element: document.querySelector('.scene-3'), start: 6000, end: 9000 },
+      { element: document.querySelector('.scene-4'), start: 9000, end: 12000 },
+      { element: document.querySelector('.scene-5'), start: 12000, end: 15000 }
+    ];
+
+    let startTime;
+    let animationInterval;
+    let counterInterval;
+
+    function startAnimation() {
+      startTime = Date.now();
+      
+      // Reset all scenes
+      scenes.forEach(scene => {
+        scene.element.classList.remove('active');
+      });
+
+      // Reset cards
+      document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('slide-in');
+      });
+
+      // Reset counter
+      document.getElementById('counter').textContent = '0';
+
+      // Clear any existing intervals
+      if (animationInterval) clearInterval(animationInterval);
+      if (counterInterval) clearInterval(counterInterval);
+
+      // Start progress bar animation
+      const progressBar = document.getElementById('progressBar');
+      progressBar.style.width = '0%';
+
+      // Scene 1: Logo (0-3s)
+      setTimeout(() => {
+        scenes[0].element.classList.add('active');
+      }, 0);
+
+      // Scene 2: Cards (3-6s)
+      setTimeout(() => {
+        scenes[0].element.classList.remove('active');
+        scenes[1].element.classList.add('active');
+        
+        // Stagger card animations
+        setTimeout(() => document.querySelector('.card-1').classList.add('slide-in'), 100);
+        setTimeout(() => document.querySelector('.card-2').classList.add('slide-in'), 300);
+        setTimeout(() => document.querySelector('.card-3').classList.add('slide-in'), 500);
+      }, 3000);
+
+      // Scene 3: Counter (6-9s)
+      setTimeout(() => {
+        scenes[1].element.classList.remove('active');
+        scenes[2].element.classList.add('active');
+        
+        // Animate counter from 0 to 47
+        let count = 0;
+        const counterEl = document.getElementById('counter');
+        counterInterval = setInterval(() => {
+          count++;
+          counterEl.textContent = count;
+          if (count >= 47) {
+            clearInterval(counterInterval);
+          }
+        }, 60); // 47 increments over ~2.8s
+      }, 6000);
+
+      // Scene 4: Quote (9-12s)
+      setTimeout(() => {
+        scenes[2].element.classList.remove('active');
+        scenes[3].element.classList.add('active');
+      }, 9000);
+
+      // Scene 5: CTA (12-15s)
+      setTimeout(() => {
+        scenes[3].element.classList.remove('active');
+        scenes[4].element.classList.add('active');
+      }, 12000);
+
+      // Progress bar update loop
+      animationInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min((elapsed / TOTAL_DURATION) * 100, 100);
+        progressBar.style.width = progress + '%';
+
+        if (elapsed >= TOTAL_DURATION) {
+          clearInterval(animationInterval);
+        }
+      }, 50);
+
+      // Loop after 15 seconds
+      setTimeout(() => {
+        startAnimation();
+      }, TOTAL_DURATION);
+    }
+
+    // Start on load
+    window.addEventListener('load', startAnimation);
+  </script>
+</body>
+</html>
